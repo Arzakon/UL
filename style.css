@@ -1,0 +1,35 @@
+/*Blå backgrundsfärg*/
+body{
+    background-color: #00FFFF;
+    
+}
+
+/*centrera text, text-storlek och position*/
+#departures{
+    list-style-type: none;
+    text-align: center;
+    margin-top: 100px;
+    font-size: 150%;
+    padding:0;
+    
+    
+}
+
+/*Listernas backgrundsfärg och avstånd emellan*/
+#departures li{
+    background-color: dodgerblue;
+    margin-bottom: 5px;
+    margin-left:300px;
+    margin-right:300px;
+    
+}
+
+
+/*h1 centreras*/
+#station{
+    text-align: center;
+    
+}
+
+
+
