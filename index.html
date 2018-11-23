@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Server date/time</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body onload="update(); setInterval('update()', 100000 )">
+
+    <h1 id="station">Från Liljeholmen</h1>
+
+
+    <ul id="departures"></ul>
+
+
+
+    <script language="javascript">
+        function createNode(element) {
+            return document.createElement(element);
+        }
+
+        function append(parent, el) {
+            return parent.appendChild(el);
+        }
+        
+        //Funktion som visar avgångstider,destination samt linje i realtid sett frå Liljeholmen
+        function update() {
+            const ul = document.getElementById('departures');
+            const url = 'https://cors-anywhere.herokuapp.com/http://api.sl.se/api2/realtimedeparturesV4.json?key=06306559e3a8448fb60d72705b0a9a7a&siteid=9294&timewindow=15';
+            ul.innerHTML = "";
+            fetch(url)
+                .then((resp) => resp.json())
+                .then(function (data) {
+                    let departures = data.ResponseData.Metros;
+                    return departures.map(function (departure) {
+                        let li = createNode('li'),
+                            img = createNode('img'),
+                            span = createNode('span');
+
+                        span.innerHTML = `${"Avgång:" + "<b> " + departure.DisplayTime + "</b><br>" + "Linje:" + " " + departure.LineNumber + "<br>" + "Destination:" + "<b> " + departure.Destination + "</b><br><br>"}`;
+                        append(li, img);
+                        append(li, span);
+                        append(ul, li);
+                    })
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+        //Funktion som gör att man adderar gångtiden med avgångstiden och slutligen visar den totala tiden det kommer ta från att man börjar gå hemifrån tills man kliver på tunnelbanan
+        var walkingtime = 2;
+        if (departure.DisplayTime == "Nu") {
+            departure.DisplayTime = "0 min";
+        }
+        var dt = departure.DisplayTime.replace(" min", "");
+        dt = dt - walkingtime;
+        if (dt > 0) {
+            span.innerHTML += departure.LineNumber + " mot " + departure.Destination + " " + dt;
+            append(li, span);
+            append(ul, li);
+        }
+
+        
+
+
+
+    </script>
+</body>
+
+</html>
